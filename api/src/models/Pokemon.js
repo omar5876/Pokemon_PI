@@ -30,5 +30,5 @@ module.exports = (sequelize) => {
     peso: {
       type: DataTypes.INTEGER
     }
-  });
+  }, {timestamps: false});
 };
