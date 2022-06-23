@@ -1,5 +1,5 @@
 const axios = require('axios')
-
+const {Pokemon} = require('../db')
 const getPokemonesApi = async () => {
     const pokemones = (await axios.get('https://pokeapi.co/api/v2/pokemon')).data.results //trayendo los pokemones
     const pokemonesFilter = pokemones.map(async (e) => {
@@ -18,20 +18,67 @@ const getPokemonesApi = async () => {
             defensa: final[i].stats[2].base_stat,
             velocidad: final[i].stats[5].base_stat,
             altura: final[i].height,
-            peso: final[i].weight
+            peso: final[i].weight,
+            img: final[i].sprites.other.dream_world.front_default
         })
 
     }
     //console.log(filter)
     return filter;
 }
+
+const getPokemonApiByName = async  (name) => {
+    let pokemon = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)).data
+    //console.log(pokemon)
+    let pokemonFilter = {
+        id: pokemon.id,
+        nombre: pokemon.forms[0].name,
+        vida: pokemon.stats[0].base_stat,
+        ataque: pokemon.stats[1].base_stat,            //filtrando la informacion necesaria
+        defensa: pokemon.stats[2].base_stat,
+        velocidad: pokemon.stats[5].base_stat,
+        altura: pokemon.height,
+        peso: pokemon.weight,
+        img: pokemon.sprites.other.dream_world.front_default
+    }
+    //console.log(pokemonFilter)
+    return pokemonFilter
+}
  
 const getPokemons = async (req, res) => {
-    const pokemones = await getPokemonesApi()
-    res.send(pokemones)
+    try {
+        
+        const pokemones = await getPokemonesApi() //trayendo pokemones de la api
+        res.send(pokemones)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
+
+const getPokemonByName = async(req, res) => {
+    try {
+        let {name} = req.query
+        if(name){
+
+            let pokemonDB = await Pokemon.findOne({where: {nombre: name}})
+            if(!pokemonDB){
+                let pokemonApi = await getPokemonApiByName(name)
+                return res.send(pokemonApi)
+            }
+            return res.send(pokemonDB)
+        } else return res.send(await getPokemonesApi())
+ 
+
+        
+    } catch (error) {
+        res.send('No existe')
+    }
+
+}
+
+
 module.exports = {
-    getPokemonesApi,
-    getPokemons
+    getPokemons,
+    getPokemonByName
 } 

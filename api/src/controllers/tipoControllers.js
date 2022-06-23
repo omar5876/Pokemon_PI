@@ -11,17 +11,19 @@ const getTypes = async (req, res) => {
     try {
         const types = await getTypesapi()
         //console.log(types)
-        const typesFilter = types.map(async (e) => await Tipo.create({nombre: e.name}))
+        const typesFilter = types.map((e) =>({nombre: e.name})) //obteniendo solo el nombre del tipo
         //console.log(typesFilter)
-        await Tipo.bulkCreate(typesFilter)
-        res.send('agregados')
+        await Tipo.bulkCreate(typesFilter) //gurdandolos en la DB
+
+        const typesDB = await Tipo.findAll()  //trayendolos de la DB
+        res.send(typesDB)
         
     } catch (error) {
         console.log(error)
     }
     
 }
-getTypes()
+
 
 module.exports = {
     getTypes,
