@@ -1,9 +1,9 @@
 const axios = require('axios')
-const {Pokemon} = require('../db')
+const {Pokemon, Tipo, addTipo} = require('../db')
 
 //-------------------------Funciones para traer la informacion------------------------------
 const getPokemonesApi = async () => {
-    const pokemones = (await axios.get('https://pokeapi.co/api/v2/pokemon')).data.results //trayendo los pokemones
+    const pokemones = (await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40')).data.results //trayendo los pokemones
     const pokemonesFilter = pokemones.map(async (e) => {
         return (await axios.get(e.url)).data //trayendo la informacion del pokemon
     })
@@ -21,7 +21,8 @@ const getPokemonesApi = async () => {
             velocidad: final[i].stats[5].base_stat,
             altura: final[i].height,
             peso: final[i].weight,
-            img: final[i].sprites.other.dream_world.front_default
+            img: final[i].sprites.other.dream_world.front_default,
+            tipo: final[i].types.map(e => e.type.name)
         })
 
     }
@@ -29,9 +30,11 @@ const getPokemonesApi = async () => {
     return filter;
 }
 
+const pok = getPokemonesApi()
+
 const getPokemonApiByName = async  (name) => {
     let pokemon = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)).data
-    //console.log(pokemon)
+    console.log(pokemon)
     let pokemonFilter = {
         id: pokemon.id,
         nombre: pokemon.forms[0].name,
@@ -41,11 +44,13 @@ const getPokemonApiByName = async  (name) => {
         velocidad: pokemon.stats[5].base_stat,
         altura: pokemon.height,
         peso: pokemon.weight,
-        img: pokemon.sprites.other.dream_world.front_default
+        img: pokemon.sprites.other.dream_world.front_default,
+        tipo: pokemon.types.map(e => e.type.name)
     }
-    //console.log(pokemonFilter)
+    console.log(pokemonFilter)
     return pokemonFilter
 }
+
 
 const getPokemonApiById = async (id) => {
     let pokemon = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)).data
@@ -59,7 +64,8 @@ const getPokemonApiById = async (id) => {
         velocidad: pokemon.stats[5].base_stat,
         altura: pokemon.height,
         peso: pokemon.weight,
-        img: pokemon.sprites.other.dream_world.front_default
+        img: pokemon.sprites.other.dream_world.front_default,
+        tipo: pokemon.types.map(e => e.type.name)
     }
     //console.log(pokemonFilter)
     return pokemonFilter
@@ -71,8 +77,9 @@ const getPokemonApiById = async (id) => {
 const getPokemons = async (req, res) => {
     try {
         
-        const pokemones = await getPokemonesApi() //trayendo pokemones de la api
-        res.send(pokemones)
+        let pokemonesApi = await pok //trayendo pokemones de la api
+        let pokemonesDB = await Pokemon.findAll({include: {model: Tipo, attributes: ['nombre']}}) //pokemones de la DB
+        res.send([...pokemonesApi, ...pokemonesDB])
     } catch (error) {
         console.log(error)
     }
@@ -80,11 +87,12 @@ const getPokemons = async (req, res) => {
 
 
 const getPokemonByName = async(req, res) => {
+    let {name} = req.query
+    //console.log(req.query)
     try {
-        let {name} = req.query
         if(name){
 
-            let pokemonDB = await Pokemon.findOne({where: {nombre: name}})
+            let pokemonDB = await Pokemon.findOne({where: {nombre: name}, include : Tipo})
             if(!pokemonDB){
                 let pokemonApi = await getPokemonApiByName(name)
                 return res.send(pokemonApi)
@@ -95,7 +103,7 @@ const getPokemonByName = async(req, res) => {
 
         
     } catch (error) {
-        res.send('No existe')
+        res.send('No existe name')
     }
 
 }
@@ -103,17 +111,17 @@ const getPokemonByName = async(req, res) => {
 const getPokemonById = async(req, res) => {
     let {id} = req.params
     let pokemonDB;
-    console.log(id)
+    //console.log(id)
     try {
         if(id){
             if(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(id)){
 
-                pokemonDB = await Pokemon.findOne({where : {id: id}})
-                console.log(pokemonDB)
+                pokemonDB = await Pokemon.findOne({where : {id: id}, include: Tipo})
+                //console.log(pokemonDB)
             }
             if(!pokemonDB){
                 let pokemonApi = await getPokemonApiById(id)
-                console.log(pokemonApi)
+                //console.log(pokemonApi)
                 return res.send(pokemonApi)
             }
             return res.send(pokemonDB)
@@ -128,9 +136,27 @@ const getPokemonById = async(req, res) => {
     }
 }
 
+const postPokemon = async(req, res) => {
+    let {nombre, vida, ataque, defensa, velocidad, altura, peso, tipo} = req.body
+    console.log(req.body)
+    try {
+        if(!nombre && !tipo) res.send("Faltan campos requeridos")
+        let newPokemon = await Pokemon.create({nombre, vida, ataque, defensa, velocidad, altura, peso});
+        let type = await Tipo.findOne({where: {nombre: tipo}})
+        //let newPokemon = await Pokemon.create({nombre, vida, ataque, defensa, velocidad, altura, peso/* , tipos : {nombre: tipo} */}/* , {include: [Tipo]} */);
+        newPokemon.addTipo(type)
+        res.send(newPokemon)
+
+    } catch (error) {
+        console.log(error)
+        res.send('No se pudo agregar')
+    }
+} 
+
 
 module.exports = {
     getPokemons,
     getPokemonByName,
-    getPokemonById
+    getPokemonById,
+    postPokemon
 } 
