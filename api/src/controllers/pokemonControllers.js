@@ -30,7 +30,7 @@ const getPokemonesApi = async () => {
     return filter;
 }
 
-const pok = getPokemonesApi()
+const pok = getPokemonesApi() //almacenando los pokemones de la api en una variable
 
 const getPokemonApiByName = async  (name) => {
     let pokemon = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)).data
@@ -98,7 +98,7 @@ const getPokemonByName = async(req, res) => {
                 return res.send(pokemonApi)
             }
             return res.send(pokemonDB)
-        } else return res.send(await getPokemonesApi())
+        } else return res.send(await pok)
  
 
         
@@ -127,7 +127,7 @@ const getPokemonById = async(req, res) => {
             return res.send(pokemonDB)
         }
         else{
-            return res.send(await getPokemonesApi())
+            return res.send(await pok)
         }
 
         
