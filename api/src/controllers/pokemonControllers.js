@@ -34,7 +34,7 @@ const pok = getPokemonesApi() //almacenando los pokemones de la api en una varia
 
 const getPokemonApiByName = async  (name) => {
     let pokemon = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)).data
-    console.log(pokemon)
+    //console.log(pokemon)
     let pokemonFilter = {
         id: pokemon.id,
         nombre: pokemon.forms[0].name,
@@ -47,7 +47,7 @@ const getPokemonApiByName = async  (name) => {
         img: pokemon.sprites.other.dream_world.front_default,
         tipo: pokemon.types.map(e => e.type.name)
     }
-    console.log(pokemonFilter)
+    //console.log(pokemonFilter)
     return pokemonFilter
 }
 

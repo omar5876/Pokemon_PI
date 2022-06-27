@@ -7,14 +7,20 @@ const getTypesapi = async () => {
     return types
     
 }
+
+let typesApi = getTypesapi()
 const getTypes = async (req, res) => {
     try {
-        const types = await getTypesapi()
+        const types = await typesApi
         //console.log(types)
         const typesFilter = types.map((e) =>({nombre: e.name})) //obteniendo solo el nombre del tipo
         //console.log(typesFilter)
-        await Tipo.bulkCreate(typesFilter) //gurdandolos en la DB
-
+        //await Tipo.bulkCreate(typesFilter) //gurdandolos en la DB
+        let createTypes = typesFilter.map(async(e, key) => {
+            key++
+            return await Tipo.findOrCreate({where: {id: key, nombre: e.nombre}})//finOrCreate, para que no se repitan
+        })
+        await Promise.all(createTypes)
         const typesDB = await Tipo.findAll()  //trayendolos de la DB
         res.send(typesDB)
         
