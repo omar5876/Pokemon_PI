@@ -3,7 +3,7 @@ export const GET_POKEMONS = 'getPokemons'
 export const GET_POKEMON_BY_NAME = 'getPokemonByName'
 export const GET_POKEMON_BY_ID = 'getPokemonById'
 export const GET_TYPES = 'getTypes'
-export const CREATE_POKEMON = 'createPokemon'
+
 
 export const getPokemons = () => {
     return async (dispatch) => {
@@ -45,11 +45,3 @@ export const getTypes = () => {
     }
 }
 
-export const createPokemon = (pokemon) => {
-    return async (dispatch) => {
-        await axios.post('http://localhost:3001/pokemon', pokemon)
-        return dispatch({
-            type: CREATE_POKEMON
-        })
-    }
-}
