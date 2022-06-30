@@ -71,6 +71,21 @@ const getPokemonApiById = async (id) => {
     return pokemonFilter
 
 }
+const pokemonFilter = (e) => {
+    let filter = {
+        id: e.id,
+        nombre: e.nombre,
+        vida: e.vida,
+        ataque: e.ataque,
+        defensa: e.defensa,
+        velocidad: e.velocidad,     //filtrado de pokemones que vienen como objetos
+        altura: e.altura,
+        peso: e.peso,
+        img: e.img,
+        tipo: e.tipos.map(e => e.nombre)
+    }
+    return filter
+}
 
 
 //----------------------------Funciones de las rutas------------------ 
@@ -79,7 +94,9 @@ const getPokemons = async (req, res) => {
         
         let pokemonesApi = await pok //trayendo pokemones de la api
         let pokemonesDB = await Pokemon.findAll({include: {model: Tipo, attributes: ['nombre']}}) //pokemones de la DB
-        res.send([...pokemonesApi, ...pokemonesDB])
+        console.log(pokemonesDB)
+        let pokemonesDbFilter = pokemonesDB.map(e => pokemonFilter(e))
+        res.send([...pokemonesApi, ...pokemonesDbFilter])
     } catch (error) {
         console.log(error)
     }
@@ -97,7 +114,8 @@ const getPokemonByName = async(req, res) => {
                 let pokemonApi = await getPokemonApiByName(name)
                 return res.send(pokemonApi)
             }
-            return res.send(pokemonDB)
+            let pokemonDbFilter = pokemonFilter(pokemonDB)
+            return res.send(pokemonDbFilter)
         } else return res.send(await pok)
  
 
@@ -117,14 +135,15 @@ const getPokemonById = async(req, res) => {
             if(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(id)){
 
                 pokemonDB = await Pokemon.findOne({where : {id: id}, include: Tipo})
-                //console.log(pokemonDB)
+                console.log(pokemonDB)
             }
             if(!pokemonDB){
                 let pokemonApi = await getPokemonApiById(id)
                 //console.log(pokemonApi)
                 return res.send(pokemonApi)
             }
-            return res.send(pokemonDB)
+            let pokemonDbFilter = pokemonFilter(pokemonDB)
+            return res.send(pokemonDbFilter)
         }
         else{
             return res.send(await pok)

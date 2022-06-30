@@ -8,6 +8,8 @@ const Home = () => {
 
     const pokemon = useSelector(state => state.getPokemonByName)
     let types = useSelector(state => state.getTypes)
+    const [paginaActual, setPaginaActual] = useState(1)
+    const [pokemonesPorPagina, setPokemonesPorPagina] = useState(12)
 
     const dispatch = useDispatch()
 
@@ -33,6 +35,11 @@ const Home = () => {
                 <option value='desc'>Descendente</option>
             </select>
             <select>
+                <option value='todos'>Todos</option>
+                <option value='creados'>Creados</option>
+                <option value='api'>Api</option>
+            </select>
+            <select >
                 {types.map(e => {
                     return (
                         <option key={e.id} value={e.nombre}>{e.nombre}</option>
@@ -40,13 +47,12 @@ const Home = () => {
                 })}
             </select>
 
-            {pokemon.nombre == undefined ?
+            {pokemon.nombre == undefined ? //renderizar todos lor pokemones, cunado no se haya hecho una busqueda
                 (<Cards />)
                 :
                 (<PokemonCard id={pokemon.id} nombre={pokemon.nombre} img={pokemon.img} tipos={pokemon.tipo} />)
              }
- {/*         <PokemonCard id={pokemon.id} nombre={pokemon.nombre} img={pokemon.img} tipos={pokemon.tipo} />
-            <Cards />  */}
+
         </div>
     )
 }
