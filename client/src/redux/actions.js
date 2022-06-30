@@ -3,6 +3,7 @@ export const GET_POKEMONS = 'getPokemons'
 export const GET_POKEMON_BY_NAME = 'getPokemonByName'
 export const GET_POKEMON_BY_ID = 'getPokemonById'
 export const GET_TYPES = 'getTypes'
+export const CLEAN = 'clean'
 
 
 export const getPokemons = () => {
@@ -44,4 +45,12 @@ export const getTypes = () => {
         })
     }
 }
+
+export const clean = () => {
+    return {
+        type: CLEAN
+    }
+}
+
+
 

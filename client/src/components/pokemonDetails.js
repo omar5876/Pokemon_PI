@@ -1,7 +1,7 @@
 import {  useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { getPokemonById } from "../redux/actions"
+import { clean, getPokemonById } from "../redux/actions"
 
 const PokemonDetails = () => {
     let {id} = useParams()
@@ -10,6 +10,7 @@ const PokemonDetails = () => {
     console.log(pokemon)
     useEffect(()=>{
         dispatch(getPokemonById(id))
+        return dispatch(clean())
     }, [dispatch, id])
     return(
         <div>

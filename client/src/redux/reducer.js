@@ -1,4 +1,4 @@
-import { CREATE_POKEMON, GET_POKEMONS, GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_TYPES } from "./actions"
+import { CLEAN, GET_POKEMONS, GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_TYPES } from "./actions"
 
 const initialState = {
     getPokemons : [],
@@ -28,6 +28,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 getTypes: action.payload
+            }
+        case CLEAN:
+            return {
+                ...state,
+                getPokemonByName: {},
+                getPokemonById: {}
             }
 
         default:
