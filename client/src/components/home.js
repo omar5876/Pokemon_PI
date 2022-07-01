@@ -84,6 +84,8 @@ const Home = () => {
      pokemonesPorPagina={pokemonesPorPagina}
      numeroTotalPokemones={allPokemons.length}
      paginado={paginado}
+     setPaginaActual={setPaginaActual}
+     paginaActual={paginaActual}
      />
      </div>
         )
