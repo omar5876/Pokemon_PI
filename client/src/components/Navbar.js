@@ -1,7 +1,8 @@
+import s from '../assets/Navbar.module.css'
 import {Link} from 'react-router-dom'
 const Navbar = () => {
     return (
-        <div>
+        <div className={s.navbar}>
             <div>
                 <Link to={'/Home'}>
                 <h2>Home</h2>

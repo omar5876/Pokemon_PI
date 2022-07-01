@@ -3,6 +3,9 @@ export const GET_POKEMONS = 'getPokemons'
 export const GET_POKEMON_BY_NAME = 'getPokemonByName'
 export const GET_POKEMON_BY_ID = 'getPokemonById'
 export const GET_TYPES = 'getTypes'
+export const ORDER = 'order'
+export const FILTER_TYPES = 'filterTypes'
+export const FILTER_POKEMONS = 'filterPokemons'
 export const CLEAN = 'clean'
 
 
@@ -43,6 +46,12 @@ export const getTypes = () => {
             type: GET_TYPES,
             payload : types
         })
+    }
+}
+
+export const order = () => {
+    return{
+
     }
 }
 

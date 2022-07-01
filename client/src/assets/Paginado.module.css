@@ -1,0 +1,21 @@
+.paginado{
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    border: 1px solid black;
+    padding-left: 0px;
+
+}
+.paginadoItem{
+    cursor: pointer;
+    border: 1px solid black;
+    width: 16.6%;
+}
+.paginadoItem > a {
+    display: flex;
+    justify-content: center;
+}
+
+.paginadoItem:active{
+    background-color: blue;
+}
