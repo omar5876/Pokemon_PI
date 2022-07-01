@@ -49,9 +49,24 @@ export const getTypes = () => {
     }
 }
 
-export const order = () => {
+export const order = (payload) => {
     return{
+        type: ORDER,
+        payload
+    }
+}
 
+export const filterTypes = (payload) => {
+    return {
+        type: FILTER_TYPES,
+        payload
+    }
+}
+
+export const filterPokemons = (payload) => {
+    return {
+        type: FILTER_POKEMONS,
+        payload
     }
 }
 

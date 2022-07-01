@@ -1,4 +1,4 @@
-import { CLEAN, GET_POKEMONS, GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_TYPES } from "./actions"
+import { CLEAN, GET_POKEMONS, GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_TYPES, ORDER } from "./actions"
 
 const initialState = {
     getPokemons : [],
@@ -28,6 +28,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 getTypes: action.payload
+            }
+        case ORDER:
+            let pokemons = state.getPokemons
+            if(action.payload == 'asc') pokemons.sort((a, b) => a + b)
+            else pokemons.sort((a,b) => b + a)
+            return {
+                ...state,
+                getPokemons: pokemons
             }
         case CLEAN:
             return {
