@@ -1,12 +1,13 @@
 import s from '../assets/Home.module.css'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { clean, getPokemonByName, getPokemons, getTypes } from '../redux/actions'
+import { clean, filterPokemons, filterTypes, getPokemonByName, getPokemons, getTypes, order } from '../redux/actions'
 
 import PokemonCard from './PokemonCard'
 import Paginado from './Paginado'
 const Home = () => {
     let [input, setInput] = useState('')
+    let [orden, setOrden] = useState('')
 
     const allPokemons = useSelector(state => state.getPokemons)
     const pokemon = useSelector(state => state.getPokemonByName)
@@ -23,9 +24,24 @@ const Home = () => {
 
     const dispatch = useDispatch()
 
-    const handleChange = (e) => {
+    const handleChangeInput = (e) => {
         e.preventDefault()
         setInput(e.target.value)
+    }
+ 
+    const handleChangeOrder = (e) => {
+        dispatch(order(e.target.value))
+        setPaginaActual(1)
+        setOrden(e.target.value)
+    }
+
+    const handleChangePokemons = (e) => {
+        dispatch(filterPokemons(e.target.value))
+        setPaginaActual(1)
+    }
+    const handleChangeType = (e) => {
+        dispatch(filterTypes(e.target.value))
+        setPaginaActual(1)
     }
 
     const searchName = () => {
@@ -39,18 +55,18 @@ const Home = () => {
     }, [dispatch])
     return (
         <div>
-            <input type={'text'} value={input} onChange={(e) => handleChange(e)} />
+            <input type={'text'} value={input} onChange={(e) => handleChangeInput(e)} />
             <button onClick={searchName}>Buscar</button>
-            <select>
+            <select onChange={e => handleChangeOrder(e)}>
                 <option value='asc'>Ascendente</option>
                 <option value='desc'>Descendente</option>
             </select>
-            <select>
+            <select onChange={(e)=> handleChangePokemons(e)}>
                 <option value='todos'>Todos</option>
                 <option value='creados'>Creados</option>
                 <option value='api'>Api</option>
             </select>
-            <select >
+            <select onChange={(e)=> handleChangeType(e)}>
                 {types.map(e => {
                     return (
                         <option key={e.id} value={e.nombre}>{e.nombre}</option>
