@@ -74,6 +74,7 @@ const reducer = (state = initialState, action) => {
         case CLEAN:
             return {
                 ...state,
+                getPokemons: [],
                 getPokemonByName: {},
                 getPokemonById: {}
             }

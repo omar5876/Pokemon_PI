@@ -108,12 +108,6 @@ const Home = () => {
         :(<PokemonCard id={pokemon.id} nombre={pokemon.nombre} img={pokemon.img} tipos={pokemon.tipo} />)
         }
 
-{/*             {pokemon.nombre == undefined ? //renderizar todos lor pokemones, cunado no se haya hecho una busqueda
-                (<Cards />)
-                :
-                (<PokemonCard id={pokemon.id} nombre={pokemon.nombre} img={pokemon.img} tipos={pokemon.tipo} />)
-             } */}
-
         </div>
     )
 }

@@ -159,7 +159,7 @@ const postPokemon = async(req, res) => {
     let {nombre, vida, ataque, defensa, velocidad, altura, peso, img, tipos} = req.body
     console.log(req.body)
     try {
-        if(!nombre && !tipos.length) res.send("Faltan campos requeridos")
+        if(!nombre) res.send("Faltan campos requeridos")
 
         let newPokemon = await Pokemon.create({nombre, vida, ataque, defensa, velocidad, altura, peso, img});
         let types = tipos.map((async(e)=> await Tipo.findOne({where: {nombre: e}})))
