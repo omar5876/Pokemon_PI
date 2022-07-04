@@ -3,13 +3,13 @@ import {Link} from 'react-router-dom'
 const Navbar = () => {
     return (
         <div className={s.navbar}>
-            <div>
-                <Link to={'/Home'}>
+            <div className={s.navbarItem}>
+                <Link className={s.navbarItemText} to={'/Home'}>
                 <h2>Home</h2>
                 </Link>
             </div>
-            <div>
-                <Link to={'/Create'}>
+            <div className={s.navbarItem}>
+                <Link className={s.navbarItemText} to={'/Create'}>
                 <h2>Crear Pokemon</h2>
                 </Link>
             </div>

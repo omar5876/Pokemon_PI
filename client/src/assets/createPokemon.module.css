@@ -1,0 +1,34 @@
+.createContainer{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('./img/egg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: aliceblue;
+
+}
+
+.formContainer{
+    width: 75%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: lightblue;
+    opacity: 0.90;
+    box-shadow: 0 0 10px lightblue;
+}
+
+.formContainer > div > input{
+    width: 94%;
+    
+}
+
+
+.mainButton{
+    
+    width: 75%;
+}

@@ -16,14 +16,14 @@ const Paginado = ({ pokemonesPorPagina, numeroTotalPokemones, paginaActual, setP
 
     return (
         <ul className={s.paginado}>
-            <li  className={s.paginadoItem} onClick={prev}>prev</li>
+            {paginaActual>1&&<li  className={s.paginadoItem} onClick={prev}>prev</li>}
             {numeroPaginas && numeroPaginas.map(numero => {
                 return(
                     <li key={numero} className={s.paginadoItem}>
                         <a onClick={() => setPaginaActual(numero)}>{numero}</a>
                     </li>
                 )})}
-            <li  className={s.paginadoItem} onClick={next}>Next</li>
+            {paginaActual<4&&<li  className={s.paginadoItem} onClick={next}>Next</li>}
         </ul>
     )
 }

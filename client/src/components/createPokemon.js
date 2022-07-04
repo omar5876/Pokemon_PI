@@ -1,3 +1,4 @@
+import s from '../assets/createPokemon.module.css'
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getTypes } from "../redux/actions"
@@ -90,8 +91,9 @@ const CreatePokemon = () => {
 
     }, [dispatch ])
     return (
-        <div>
-            <form >
+        <div className={s.createContainer}>
+            <div className={s.formContainer}>
+
                 <div>
                     <label htmlFor='nombre'>Nombre:</label>
                     <input name='nombre' id='nombre' type={'text'} value={input.nombre} onChange={handleChange} />
@@ -131,9 +133,6 @@ const CreatePokemon = () => {
                     <label htmlFor='img'>Imagen:</label>
                     <input name='img' id='img' type={'text'} value={input.imagen} onChange={handleChange}/>
                 </div>
-                
-
-            </form>
                 <div>
                     <label htmlFor="tipos">Tipos:</label>
                     <select id="tipos" onChange={handleSelect}>
@@ -145,11 +144,12 @@ const CreatePokemon = () => {
                     </select>
                     {!input.tipos.length&&<span>Debe eligir al menos un Tipo</span>}
                     <div>Tipos elegidos:{input.tipos.length&&input.tipos.map((e, k) => {
-                        return <div key={k}>{e} <button onClick={() => deleteType(e)}>X</button></div>
+                        return <span key={k}>{e} <button onClick={() => deleteType(e)}>X</button></span>
                     })}</div>
-                    <button disabled={!Object.keys(error).length?false:true} onClick={handleSubmit} >Crear</button>
+                    <button className={s.mainButton}disabled={!Object.keys(error).length?false:true} onClick={handleSubmit} >Crear</button>
                 </div>
         </div>
+            </div>
     )
 }
 
