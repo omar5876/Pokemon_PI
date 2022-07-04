@@ -1,3 +1,4 @@
+import s from '../assets/pokemonDetails.module.css'
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
@@ -13,13 +14,13 @@ const PokemonDetails = () => {
         return dispatch(clean())
     }, [dispatch, id])
     return (
-        <div >
-            <div>
+        <div className={s.containerDetails}>
 
+        <div className={s.cardDetailContainer}>
+            <div>
                 <h3>Nombre: {pokemon.nombre}</h3>
             </div>
-            <div>
-
+            <div className={s.imgDetailContainer}>
                 <img src={pokemon.img}></img>
             </div>
             <div>
@@ -41,6 +42,7 @@ const PokemonDetails = () => {
                 </div>
             </div>
 
+        </div>
         </div>
 
     )

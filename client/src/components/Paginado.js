@@ -1,5 +1,5 @@
 import s from '../assets/Paginado.module.css'
-const Paginado = ({ pokemonesPorPagina, numeroTotalPokemones, paginado, paginaActual, setPaginaActual }) => {
+const Paginado = ({ pokemonesPorPagina, numeroTotalPokemones, paginaActual, setPaginaActual }) => {
     let numeroPaginas = []
     for (var i = 1; i <= Math.ceil(numeroTotalPokemones / pokemonesPorPagina); i++) {
         numeroPaginas.push(i)
@@ -20,7 +20,7 @@ const Paginado = ({ pokemonesPorPagina, numeroTotalPokemones, paginado, paginaAc
             {numeroPaginas && numeroPaginas.map(numero => {
                 return(
                     <li key={numero} className={s.paginadoItem}>
-                        <a onClick={() => paginado(numero)}>{numero}</a>
+                        <a onClick={() => setPaginaActual(numero)}>{numero}</a>
                     </li>
                 )})}
             <li  className={s.paginadoItem} onClick={next}>Next</li>

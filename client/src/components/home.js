@@ -5,6 +5,7 @@ import { clean, filterPokemons, filterTypes, getPokemonByName, getPokemons, getT
 
 import PokemonCard from './PokemonCard'
 import Paginado from './Paginado'
+
 const Home = () => {
     let [input, setInput] = useState('')
     let [orden, setOrden] = useState('')
@@ -17,10 +18,6 @@ const Home = () => {
     const indiceUltimoPokemon = paginaActual * pokemonesPorPagina; 
     const indicePrimerPokemon = indiceUltimoPokemon - pokemonesPorPagina
     const pokemonesPagina = allPokemons.slice(indicePrimerPokemon, indiceUltimoPokemon)
-
-    const paginado = (pagActual) => {
-        setPaginaActual(pagActual)
-    }
 
     const dispatch = useDispatch()
 
@@ -78,7 +75,6 @@ const Home = () => {
             <Paginado 
                 pokemonesPorPagina={pokemonesPorPagina}
                 numeroTotalPokemones={allPokemons.length}
-                paginado={paginado}
                 setPaginaActual={setPaginaActual}
                 paginaActual={paginaActual}
                 />
@@ -99,7 +95,6 @@ const Home = () => {
  <Paginado 
      pokemonesPorPagina={pokemonesPorPagina}
      numeroTotalPokemones={allPokemons.length}
-     paginado={paginado}
      setPaginaActual={setPaginaActual}
      paginaActual={paginaActual}
      />
