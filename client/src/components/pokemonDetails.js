@@ -17,13 +17,13 @@ const PokemonDetails = () => {
         <div className={s.containerDetails}>
 
         <div className={s.cardDetailContainer}>
-            <div>
+            <div className={s.cardDetailTitleContainer}>
                 <h3>Nombre: {pokemon.nombre}</h3>
             </div>
             <div className={s.imgDetailContainer}>
                 <img src={pokemon.img}></img>
             </div>
-            <div>
+            <div >
                 <h3>Tipos:</h3>
                 <ul>{pokemon.tipo?.map((e, k) => <li key={k}>{e}</li>)}</ul>
             </div>

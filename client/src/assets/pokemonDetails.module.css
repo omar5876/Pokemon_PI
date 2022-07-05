@@ -1,6 +1,7 @@
 .containerDetails{
     display: flex;
     justify-content: center;
+
 }
 
 .cardDetailContainer{
@@ -11,14 +12,12 @@
     background-color: lightblue;
     border-radius: 5px;
     margin: 5px;
+    position: relative;
+    box-shadow: 0 0 20px rgb(0, 191, 255);
     
 }
 
-.cardDetailContainer > div{
-    display: flex;
-    flex-direction: column;
 
-}
 .imgDetailContainer{
     width: 90%;
 }
@@ -27,11 +26,14 @@
     width: 90%;
 }
 
-.cardDetailContainer > ul{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
+.cardDetailContainer > div{
+    width: 50%;
 }
 
+.cardDetailContainer > h3{
+    margin-right: 40%;
+}
+
+.cardDetailTitleContainer{
+    text-align: center;
+}
