@@ -2,4 +2,14 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    background-color: rgb(234, 244, 247);
+}
+
+.searchContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2% 0;
+    margin-bottom: 0;
 }

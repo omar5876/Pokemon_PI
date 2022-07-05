@@ -52,11 +52,14 @@ const CreatePokemon = () => {
     }
 
     const handleSelect = (e) => {
-        setInput(
-            {...input,
-            tipos: [...input.tipos,e.target.value]
+        if(!input.tipos.includes(e.target.value)){
+
+            setInput(
+                {...input,
+                tipos: [...input.tipos,e.target.value]
+            }
+            )
         }
-        )
     }
 
     const deleteType = (nombre) => {
@@ -144,7 +147,7 @@ const CreatePokemon = () => {
                     </select>
                     {!input.tipos.length&&<span>Debe eligir al menos un Tipo</span>}
                     <div>Tipos elegidos:{input.tipos.length&&input.tipos.map((e, k) => {
-                        return <span key={k}>{e} <button onClick={() => deleteType(e)}>X</button></span>
+                        return <span className={s.types} key={k}>{e} <button onClick={() => deleteType(e)}>X</button></span>
                     })}</div>
                     <button className={s.mainButton}disabled={!Object.keys(error).length?false:true} onClick={handleSubmit} >Crear</button>
                 </div>

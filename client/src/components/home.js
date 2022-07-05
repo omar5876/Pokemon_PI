@@ -15,7 +15,7 @@ const Home = () => {
     let types = useSelector(state => state.getTypes)
     const [paginaActual, setPaginaActual] = useState(1)
     const [pokemonesPorPagina, setPokemonesPorPagina] = useState(12)
-    const indiceUltimoPokemon = paginaActual * pokemonesPorPagina; 
+    const indiceUltimoPokemon = paginaActual * pokemonesPorPagina;
     const indicePrimerPokemon = indiceUltimoPokemon - pokemonesPorPagina
     const pokemonesPagina = allPokemons.slice(indicePrimerPokemon, indiceUltimoPokemon)
 
@@ -25,7 +25,7 @@ const Home = () => {
         e.preventDefault()
         setInput(e.target.value)
     }
- 
+
     const handleChangeOrder = (e) => {
         dispatch(order(e.target.value))
         setPaginaActual(1)
@@ -52,56 +52,59 @@ const Home = () => {
     }, [dispatch])
     return (
         <div>
-            <input type={'text'} value={input} onChange={(e) => handleChangeInput(e)} />
-            <button onClick={searchName}>Buscar</button>
-            <select onChange={e => handleChangeOrder(e)}>
-                <option value='asc'>Ascendente</option>
-                <option value='desc'>Descendente</option>
-            </select>
-            <select onChange={(e)=> handleChangePokemons(e)}>
-                <option value='todos'>Todos</option>
-                <option value='creados'>Creados</option>
-                <option value='api'>Api</option>
-            </select>
-            <select onChange={(e)=> handleChangeType(e)}>
-                {types.map(e => {
-                    return (
-                        <option key={e.id} value={e.nombre}>{e.nombre}</option>
-                    )
-                })}
-            </select>
-{ pokemon.nombre == undefined ?          ( 
-    <div>
-            <Paginado 
-                pokemonesPorPagina={pokemonesPorPagina}
-                numeroTotalPokemones={allPokemons.length}
-                setPaginaActual={setPaginaActual}
-                paginaActual={paginaActual}
-                />
-<div className={s.pokemonsContainer}>
-            {pokemonesPagina&&pokemonesPagina.map(e=> {
-                return (
-                    <PokemonCard 
-                        key={e.id}
-                        id={e.id}
-                        nombre={e.nombre}
-                        img={e.img}
-                        tipos={e.tipo}
-                        />
-                )
-            })}
- 
-        </div>
- <Paginado 
-     pokemonesPorPagina={pokemonesPorPagina}
-     numeroTotalPokemones={allPokemons.length}
-     setPaginaActual={setPaginaActual}
-     paginaActual={paginaActual}
-     />
-     </div>
-        )
-        :(<PokemonCard id={pokemon.id} nombre={pokemon.nombre} img={pokemon.img} tipos={pokemon.tipo} />)
-        }
+            <div className={s.searchContainer}>
+
+                <input type={'text'} value={input} onChange={(e) => handleChangeInput(e)} />
+                <button onClick={searchName}>Buscar</button>
+                <select onChange={e => handleChangeOrder(e)}>
+                    <option value='asc'>Ascendente</option>
+                    <option value='desc'>Descendente</option>
+                </select>
+                <select onChange={(e) => handleChangePokemons(e)}>
+                    <option value='todos'>Todos</option>
+                    <option value='creados'>Creados</option>
+                    <option value='api'>Api</option>
+                </select>
+                <select onChange={(e) => handleChangeType(e)}>
+                    {types.map(e => {
+                        return (
+                            <option key={e.id} value={e.nombre}>{e.nombre}</option>
+                        )
+                    })}
+                </select>
+            </div>
+            {pokemon.nombre == undefined ? (
+                <div>
+                    <Paginado
+                        pokemonesPorPagina={pokemonesPorPagina}
+                        numeroTotalPokemones={allPokemons.length}
+                        setPaginaActual={setPaginaActual}
+                        paginaActual={paginaActual}
+                    />
+                    <div className={s.pokemonsContainer}>
+                        {pokemonesPagina && pokemonesPagina.map(e => {
+                            return (
+                                <PokemonCard
+                                    key={e.id}
+                                    id={e.id}
+                                    nombre={e.nombre}
+                                    img={e.img}
+                                    tipos={e.tipo}
+                                />
+                            )
+                        })}
+
+                    </div>
+                    <Paginado
+                        pokemonesPorPagina={pokemonesPorPagina}
+                        numeroTotalPokemones={allPokemons.length}
+                        setPaginaActual={setPaginaActual}
+                        paginaActual={paginaActual}
+                    />
+                </div>
+            )
+                : (<PokemonCard id={pokemon.id} nombre={pokemon.nombre} img={pokemon.img} tipos={pokemon.tipo} />)
+            }
 
         </div>
     )

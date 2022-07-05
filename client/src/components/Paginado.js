@@ -23,7 +23,7 @@ const Paginado = ({ pokemonesPorPagina, numeroTotalPokemones, paginaActual, setP
                         <a onClick={() => setPaginaActual(numero)}>{numero}</a>
                     </li>
                 )})}
-            {paginaActual<4&&<li  className={s.paginadoItem} onClick={next}>Next</li>}
+            {paginaActual<numeroPaginas.length&&<li  className={s.paginadoItem} onClick={next}>Next</li>}
         </ul>
     )
 }
