@@ -73,20 +73,22 @@ const CreatePokemon = () => {
   
         console.log(input)
         axios.post('http://localhost:3001/pokemon', input)
-
-        setInput({
-            nombre: '',
-            vida: 0,
-            ataque: 0,
-            defensa: 0,
-            velocidad: 0,
-            altura: 0,
-            peso: 0,
-            img: '',
-            tipo: []
+        .then(res => {
+            setInput({
+                nombre: '',
+                vida: 0,
+                ataque: 0,
+                defensa: 0,
+                velocidad: 0,
+                altura: 0,
+                peso: 0,
+                img: '',
+                tipo: []
+            })
+            alert('Pokemon Creado')
+            history.push('/Home')
         })
-        alert('Pokemon Creado')
-        history.push('/Home')
+
     }
 
     useEffect(() => {
