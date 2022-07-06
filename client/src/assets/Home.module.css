@@ -13,3 +13,10 @@
     padding: 2% 0;
     margin-bottom: 0;
 }
+
+.searchByNamePokemon{
+    background-color: rgb(234, 244, 247);
+    display: flex;
+    justify-content: center;
+    height: 80vh;
+}

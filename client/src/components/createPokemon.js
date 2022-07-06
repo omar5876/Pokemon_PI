@@ -88,6 +88,7 @@ const CreatePokemon = () => {
             alert('Pokemon Creado')
             history.push('/Home')
         })
+        .catch(error => console.log(error))
 
     }
 
@@ -106,32 +107,32 @@ const CreatePokemon = () => {
                 </div>
                 <div>
                     <label htmlFor='vida'>Vida:</label>
-                    <input name='vida' id='vida' type={'number'} value={input.vida} onChange={handleChange}/>
+                    <input name='vida' id='vida' type={'number'}min='1' value={input.vida} onChange={handleChange}/>
                     {error.vida&&(<span>{error.vida}</span>)}
                 </div>
                 <div>
                     <label htmlFor='ataque'>Ataque:</label>
-                    <input name='ataque' id='ataque' type={'number'} min='0' value={input.ataque} onChange={handleChange} />
+                    <input name='ataque' id='ataque' type={'number'} min='1' value={input.ataque} onChange={handleChange} />
                     {error.ataque&&(<span>{error.ataque}</span>)}
                 </div>
                 <div>
                     <label htmlFor='defensa'>Defensa:</label>
-                    <input name='defensa' id='defensa' type={'number'} value={input.defensa} onChange={handleChange} />
+                    <input name='defensa' id='defensa' type={'number'} min='1'value={input.defensa} onChange={handleChange} />
                     {error.defensa&&(<span>{error.defensa}</span>)}
                 </div>
                 <div>
                     <label htmlFor='velocidad'>Velocidad:</label>
-                    <input name='velocidad' id='velocidad' type={'number'} value={input.velocidad} onChange={handleChange}/>
+                    <input name='velocidad' id='velocidad' type={'number'} min='1' value={input.velocidad} onChange={handleChange}/>
                     {error.velocidad&&(<span>{error.velocidad}</span>)}
                 </div>
                 <div>
                     <label htmlFor='altura'>Altura:</label>
-                    <input name='altura' id='altura' type={'number'} value={input.altura}  onChange={handleChange}/>
+                    <input name='altura' id='altura' type={'number'} min='1' value={input.altura}  onChange={handleChange}/>
                     {error.altura&&(<span>{error.altura}</span>)}
                 </div>
                 <div>
                     <label htmlFor='peso'>Peso:</label>
-                    <input name='peso' id='peso' type={'number'} value={input.peso} onChange={handleChange}/>
+                    <input name='peso' id='peso' type={'number'} min='1' value={input.peso} onChange={handleChange}/>
                     {error.peso&&(<span>{error.peso}</span>)}
                 </div>
                 <div>

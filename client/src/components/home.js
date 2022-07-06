@@ -103,7 +103,7 @@ const Home = () => {
                     />
                 </div>
             )
-                : (<PokemonCard id={pokemon.id} nombre={pokemon.nombre} img={pokemon.img} tipos={pokemon.tipo} />)
+                : (<div className={s.searchByNamePokemon}><PokemonCard id={pokemon.id} nombre={pokemon.nombre} img={pokemon.img} tipos={pokemon.tipo} /></div>)
             }
 
         </div>
