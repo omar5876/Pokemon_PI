@@ -7,6 +7,7 @@ export const ORDER = 'order'
 export const FILTER_TYPES = 'filterTypes'
 export const FILTER_POKEMONS = 'filterPokemons'
 export const CLEAN = 'clean'
+export const ORDER_BY_ATTACK = 'orderByAttack'
 
 
 export const getPokemons = () => {
@@ -66,6 +67,13 @@ export const filterTypes = (payload) => {
 export const filterPokemons = (payload) => {
     return {
         type: FILTER_POKEMONS,
+        payload
+    }
+}
+
+export const orderByAttack = (payload) => {
+    return {
+        type: ORDER_BY_ATTACK,
         payload
     }
 }

@@ -1,4 +1,4 @@
-import { CLEAN, FILTER_POKEMONS, FILTER_TYPES, GET_POKEMONS, GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_TYPES, ORDER } from "./actions"
+import { CLEAN, FILTER_POKEMONS, FILTER_TYPES, GET_POKEMONS, GET_POKEMON_BY_ID, GET_POKEMON_BY_NAME, GET_TYPES, ORDER, ORDER_BY_ATTACK } from "./actions"
 
 const initialState = {
     allPokemons : [],
@@ -35,8 +35,8 @@ const reducer = (state = initialState, action) => {
         case ORDER:
             let pokemons = state.getPokemons
             if(action.payload === 'asc') pokemons.sort((a, b) => {
-                if(a.nombre > b.nombre)return 1
-                if(a.nombre < b.nombre)return -1
+                if(a.nombre.toLowerCase() > b.nombre.toLowerCase())return 1
+                if(a.nombre.toLowerCase() < b.nombre.toLowerCase())return -1
                 else return 0
             })
             else pokemons.sort((a, b) => {
@@ -50,6 +50,24 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 getPokemons: pokemons
             }
+        case ORDER_BY_ATTACK:
+            console.log(action.payload)
+            let pokemonAttack = state.getPokemons
+            if(action.payload === 'ataqueAsc') pokemonAttack.sort((a, b) => {
+                if(a.ataque > b.ataque)return 1
+                if(a.ataque < b.ataque)return -1
+                else return 0
+            })
+            else pokemonAttack.sort((a, b) => {
+                if(a.ataque > b.ataque)return -1
+                if(a.ataque < b.ataque)return 1
+                else return 0
+            })
+           return{
+            ...state,
+            getPokemons: pokemonAttack
+           }
+
         case FILTER_POKEMONS:
             console.log(action.payload)
             let filterPokemons = state.allPokemons

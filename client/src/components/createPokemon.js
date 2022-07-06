@@ -70,25 +70,31 @@ const CreatePokemon = () => {
     }
 
     const handleSubmit = () => {
-  
-        console.log(input)
-        axios.post('http://localhost:3001/pokemon', input)
-        .then(res => {
-            setInput({
-                nombre: '',
-                vida: 0,
-                ataque: 0,
-                defensa: 0,
-                velocidad: 0,
-                altura: 0,
-                peso: 0,
-                img: '',
-                tipo: []
+        if(input.nombre){
+
+            console.log(input)
+            axios.post('http://localhost:3001/pokemon', input)
+            .then(res => {
+                setInput({
+                    nombre: '',
+                    vida: 0,
+                    ataque: 0,
+                    defensa: 0,
+                    velocidad: 0,
+                    altura: 0,
+                    peso: 0,
+                    img: '',
+                    tipo: []
+                })
+                alert('Pokemon Creado')
+                history.push('/Home')
             })
-            alert('Pokemon Creado')
+            .catch(error => console.log(error))
+        }
+        else {
+            alert('No se pudo crear pokemon')
             history.push('/Home')
-        })
-        .catch(error => console.log(error))
+        }
 
     }
 

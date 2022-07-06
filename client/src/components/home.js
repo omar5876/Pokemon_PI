@@ -1,7 +1,7 @@
 import s from '../assets/Home.module.css'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { clean, filterPokemons, filterTypes, getPokemonByName, getPokemons, getTypes, order } from '../redux/actions'
+import { clean, filterPokemons, filterTypes, getPokemonByName, getPokemons, getTypes, order, orderByAttack } from '../redux/actions'
 
 import PokemonCard from './PokemonCard'
 import Paginado from './Paginado'
@@ -9,6 +9,7 @@ import Paginado from './Paginado'
 const Home = () => {
     let [input, setInput] = useState('')
     let [orden, setOrden] = useState('')
+    let [orderAttack, setOrderAttack] = useState('')
 
     const allPokemons = useSelector(state => state.getPokemons)
     const pokemon = useSelector(state => state.getPokemonByName)
@@ -41,6 +42,12 @@ const Home = () => {
         setPaginaActual(1)
     }
 
+    const handleChangeAttack = (e) => {
+        console.log(e.target.value)
+        dispatch(orderByAttack(e.target.value))
+        setOrderAttack(e.target.value)
+        setPaginaActual(1)
+    }
     const searchName = () => {
         dispatch(getPokemonByName(input))
         setInput('')
@@ -71,6 +78,10 @@ const Home = () => {
                             <option key={e.id} value={e.nombre}>{e.nombre}</option>
                         )
                     })}
+                </select>
+                <select onChange={(e) =>handleChangeAttack(e)}>
+                    <option value={'ataqueAsc'}>Ataque ascendente</option>
+                    <option value={'ataqueDesc'}>Ataque descendente</option>
                 </select>
             </div>
             {pokemon.nombre == undefined ? (
