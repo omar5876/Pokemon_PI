@@ -70,7 +70,7 @@ const CreatePokemon = () => {
     }
 
     const handleSubmit = () => {
-        if(input.nombre){
+        if(input.nombre && input.tipos.length){
 
             console.log(input)
             axios.post('http://localhost:3001/pokemon', input)
@@ -84,7 +84,7 @@ const CreatePokemon = () => {
                     altura: 0,
                     peso: 0,
                     img: '',
-                    tipo: []
+                    tipos: []
                 })
                 alert('Pokemon Creado')
                 history.push('/Home')
@@ -108,46 +108,46 @@ const CreatePokemon = () => {
 
                 <div>
                     <label htmlFor='nombre'>Nombre:</label>
-                    <input name='nombre' id='nombre' type={'text'} value={input.nombre} onChange={handleChange} />
+                    <input name='nombre' id='nombre' type={'text'} required value={input.nombre} onChange={handleChange} />
                     {error.nombre&&(<span>{error.nombre}</span>)}
                 </div>
                 <div>
                     <label htmlFor='vida'>Vida:</label>
-                    <input name='vida' id='vida' type={'number'}min='1' value={input.vida} onChange={handleChange}/>
+                    <input name='vida' id='vida' type={'number'}required min='1' value={input.vida} onChange={handleChange}/>
                     {error.vida&&(<span>{error.vida}</span>)}
                 </div>
                 <div>
                     <label htmlFor='ataque'>Ataque:</label>
-                    <input name='ataque' id='ataque' type={'number'} min='1' value={input.ataque} onChange={handleChange} />
+                    <input name='ataque' id='ataque' type={'number'}required min='1' value={input.ataque} onChange={handleChange} />
                     {error.ataque&&(<span>{error.ataque}</span>)}
                 </div>
                 <div>
                     <label htmlFor='defensa'>Defensa:</label>
-                    <input name='defensa' id='defensa' type={'number'} min='1'value={input.defensa} onChange={handleChange} />
+                    <input name='defensa' id='defensa' type={'number'}required min='1'value={input.defensa} onChange={handleChange} />
                     {error.defensa&&(<span>{error.defensa}</span>)}
                 </div>
                 <div>
                     <label htmlFor='velocidad'>Velocidad:</label>
-                    <input name='velocidad' id='velocidad' type={'number'} min='1' value={input.velocidad} onChange={handleChange}/>
+                    <input name='velocidad' id='velocidad' type={'number'} required min='1' value={input.velocidad} onChange={handleChange}/>
                     {error.velocidad&&(<span>{error.velocidad}</span>)}
                 </div>
                 <div>
                     <label htmlFor='altura'>Altura:</label>
-                    <input name='altura' id='altura' type={'number'} min='1' value={input.altura}  onChange={handleChange}/>
+                    <input name='altura' id='altura' type={'number'} required min='1' value={input.altura}  onChange={handleChange}/>
                     {error.altura&&(<span>{error.altura}</span>)}
                 </div>
                 <div>
                     <label htmlFor='peso'>Peso:</label>
-                    <input name='peso' id='peso' type={'number'} min='1' value={input.peso} onChange={handleChange}/>
+                    <input name='peso' id='peso' type={'number'} required min='1' value={input.peso} onChange={handleChange}/>
                     {error.peso&&(<span>{error.peso}</span>)}
                 </div>
                 <div>
                     <label htmlFor='img'>Imagen:</label>
-                    <input name='img' id='img' type={'text'} value={input.imagen} onChange={handleChange}/>
+                    <input name='img' id='img' type={'text'} required value={input.imagen} onChange={handleChange}/>
                 </div>
                 <div>
                     <label htmlFor="tipos">Tipos:</label>
-                    <select id="tipos" onChange={handleSelect}>
+                    <select id="tipos" required onChange={handleSelect}>
                         {tiposApi && tiposApi.map(e => {
                             return (
                                 <option key={e.id} value={e.nombre} >{e.nombre}</option>

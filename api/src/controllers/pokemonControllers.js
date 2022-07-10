@@ -1,36 +1,42 @@
 const axios = require('axios')
-const {Pokemon, Tipo, addTipo} = require('../db')
+const {Pokemon, Tipo} = require('../db')
 
 //-------------------------Funciones para traer la informacion------------------------------
 const getPokemonesApi = async () => {
-    const pokemones = (await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40')).data.results //trayendo los pokemones
-    const pokemonesFilter = pokemones.map(async (e) => {
-        return (await axios.get(e.url)).data //trayendo la informacion del pokemon
-    })
-    
-    const final = await Promise.all(pokemonesFilter) //resolviendo las promesas pendientes
-    //console.log(final)
-    const filter = []
-    for(let i = 0; i < final.length; i++){
-        filter.push({
-            id: final[i].id,
-            nombre: final[i].forms[0].name,
-            vida: final[i].stats[0].base_stat,
-            ataque: final[i].stats[1].base_stat,            //filtrando la informacion necesaria
-            defensa: final[i].stats[2].base_stat,
-            velocidad: final[i].stats[5].base_stat,
-            altura: final[i].height,
-            peso: final[i].weight,
-            img: final[i].sprites.other.dream_world.front_default,
-            tipo: final[i].types.map(e => e.type.name)
+    try {
+        
+        const pokemones = (await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40')).data.results //trayendo los pokemones
+        const pokemonesFilter = pokemones.map(async (e) => {
+            return (await axios.get(e.url)).data //trayendo la informacion del pokemon
         })
-
+        
+        const final = await Promise.all(pokemonesFilter) //resolviendo las promesas pendientes
+        //console.log(final)
+        const filter = []
+        for(let i = 0; i < final.length; i++){
+            filter.push({
+                id: final[i].id,
+                nombre: final[i].forms[0].name,
+                vida: final[i].stats[0].base_stat,
+                ataque: final[i].stats[1].base_stat,            //filtrando la informacion necesaria
+                defensa: final[i].stats[2].base_stat,
+                velocidad: final[i].stats[5].base_stat,
+                altura: final[i].height,
+                peso: final[i].weight,
+                img: final[i].sprites.other.dream_world.front_default,
+                tipo: final[i].types.map(e => e.type.name)
+            })
+    
+        }
+        //console.log(filter)
+        return filter;
+    } catch (error) {
+        console.log(error)
     }
-    //console.log(filter)
-    return filter;
 }
 
 const pok = getPokemonesApi() //almacenando los pokemones de la api en una variable
+
 
 const getPokemonApiByName = async  (name) => {
     let pokemon = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)).data
@@ -89,16 +95,18 @@ const pokemonFilter = (e) => {
 
 
 //----------------------------Funciones de las rutas------------------ 
-const getPokemons = async (req, res) => {
+const getPokemons = async (req, res, next) => {
     try {
         
         let pokemonesApi = await pok //trayendo pokemones de la api
+        console.log(pokemonesApi)
         let pokemonesDB = await Pokemon.findAll({include: {model: Tipo, attributes: ['nombre']}}) //pokemones de la DB
         console.log(pokemonesDB)
         let pokemonesDbFilter = pokemonesDB.map(e => pokemonFilter(e))
-        res.send([...pokemonesApi, ...pokemonesDbFilter])
+        res.send([...pokemonesApi, ...pokemonesDbFilter ])
     } catch (error) {
         console.log(error)
+        next(error)
     }
 }
 
@@ -159,7 +167,7 @@ const postPokemon = async(req, res) => {
     let {nombre, vida, ataque, defensa, velocidad, altura, peso, img, tipos} = req.body
     console.log(req.body)
     try {
-        if(!nombre) res.send("Faltan campos requeridos")
+        if(!nombre) return res.send("Faltan campos requeridos")
 
         let newPokemon = await Pokemon.create({nombre, vida, ataque, defensa, velocidad, altura, peso, img});
         let types = tipos.map((async(e)=> await Tipo.findOne({where: {nombre: e}})))
@@ -167,7 +175,7 @@ const postPokemon = async(req, res) => {
 
         newPokemon.addTipos(typesPromise)
 
-        res.send(newPokemon)
+        return res.send(newPokemon)
 
     } catch (error) {
         console.log(error)
@@ -176,9 +184,44 @@ const postPokemon = async(req, res) => {
 } 
 
 
+const deletePokemon = async(req, res) => {
+    try {
+        let {id} = req.params
+        console.log(req.params)
+        if(id)await Pokemon.destroy({where: {id: id}})
+        return res.send('Pokemon Eliminado')
+        
+    } catch (error) {
+        console.log(error)
+        res.send('No eliminado')
+    }
+}
+
+
+const updatePokemon = async(req, res) => {
+    try {
+        let {id} = req.params
+        console.log(req.params)
+        let {nombre, vida, ataque, defensa, velocidad, altura, peso, img, tipos} = req.body
+        console.log(req.body)
+        await Pokemon.update({nombre, vida, ataque, defensa, velocidad, altura, peso, img}, {where:{id}})
+        let types = tipos.map((async(e)=> await Tipo.findOne({where: {nombre: e}})))
+        let typesPromise = await Promise.all(types)
+        
+        let findPokemon = await Pokemon.findOne({where: {id: id}})
+        findPokemon.setTipos(typesPromise)
+        return res.send(findPokemon)
+        
+    } catch (error) {
+        return res.send('No actualizado')
+    }
+}
+
 module.exports = {
     getPokemons,
     getPokemonByName,
     getPokemonById,
-    postPokemon
+    postPokemon,
+    deletePokemon,
+    updatePokemon
 } 

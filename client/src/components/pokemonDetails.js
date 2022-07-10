@@ -1,14 +1,29 @@
 import s from '../assets/pokemonDetails.module.css'
+import axios from 'axios'
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { clean, getPokemonById } from "../redux/actions"
+import {Link} from 'react-router-dom'
 
 const PokemonDetails = () => {
     let { id } = useParams()
+    let history = useHistory()
     let pokemon = useSelector(state => state.getPokemonById)
     let dispatch = useDispatch()
     console.log(pokemon)
+
+    const deletePokemonDB = (pokemonID) =>{
+        console.log(pokemonID)
+        axios.delete(`http://localhost:3001/pokemon/${pokemonID}`)
+        .then(res => {
+            alert('Pokemon Eliminado')
+            history.push('/Home')
+        })
+        .catch(error => console.log(error))
+
+
+    }
     useEffect(() => {
         dispatch(getPokemonById(id))
         return dispatch(clean())
@@ -17,6 +32,8 @@ const PokemonDetails = () => {
         <div className={s.containerDetails}>
 
         <div className={s.cardDetailContainer}>
+            {typeof pokemon.id === 'string' && (<button className={s.cardDetailsDeleteButton}type='button' onClick={() => deletePokemonDB(pokemon.id)}>Eliminar</button>)}
+            {typeof pokemon.id === 'string' && (<Link to={`/update/${id}`}><button className={s.cardDetailsUpdateButton}type='button'>Actualizar</button></Link>)}
             <div className={s.cardDetailTitleContainer}>
                 <h3>Nombre: {pokemon.nombre}</h3>
             </div>

@@ -7,6 +7,7 @@ import Home from './components/home';
 import CreatePokemon from './components/createPokemon';
 import Navbar from './components/Navbar';
 import PokemonDetails from './components/pokemonDetails';
+import UpdatePokemon from './components/updatePokemon';
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
           <Route exact path={'/:id'}>
             <Navbar />
             <PokemonDetails />
+          </Route>
+          <Route exact path={'/update/:id'}>
+            <Navbar />
+            <UpdatePokemon/>
           </Route>
         </Switch>
 

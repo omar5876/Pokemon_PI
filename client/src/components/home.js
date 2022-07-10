@@ -60,9 +60,11 @@ const Home = () => {
     return (
         <div>
             <div className={s.searchContainer}>
+                <div>
 
-                <input type={'text'} value={input} onChange={(e) => handleChangeInput(e)} />
-                <button onClick={searchName}>Buscar</button>
+                    <input type={'text'} value={input} onChange={(e) => handleChangeInput(e)} />
+                    <button onClick={searchName}>Buscar</button>
+                </div>
                 <select onChange={e => handleChangeOrder(e)}>
                     <option value='asc'>Ascendente</option>
                     <option value='desc'>Descendente</option>
@@ -79,7 +81,7 @@ const Home = () => {
                         )
                     })}
                 </select>
-                <select onChange={(e) =>handleChangeAttack(e)}>
+                <select onChange={(e) => handleChangeAttack(e)}>
                     <option value={'ataqueAsc'}>Ataque ascendente</option>
                     <option value={'ataqueDesc'}>Ataque descendente</option>
                 </select>
